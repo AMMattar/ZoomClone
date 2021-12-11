@@ -25,8 +25,11 @@ io.on("connection", socket => {
     socket.on('join-room', (roomId, userId) => {
         socket.join(roomId)
         socket.broadcast.to(roomId).emit('user-connected', userId)
+        socket.on("message", message => {
+            io.to(roomId).emit('createMessage', message)
+        })
     })
 })
 
 
-server.listen(3030);
+server.listen(3000);
